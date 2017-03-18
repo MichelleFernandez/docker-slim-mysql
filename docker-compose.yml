@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:latest
+    volumes:
+      - .db_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=slim_mysql_data
+    ports:
+      - "3306:3306"
+
+  web:
+    build: ./src/
+    command: ./entrypoint.sh
+    volumes:
+      - .:/code
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
